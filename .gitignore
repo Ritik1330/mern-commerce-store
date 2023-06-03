@@ -12,6 +12,8 @@
 /frontend/build
 
 # misc
+/frontend/.test.css
+/frontend/.Test.js
 /frontend/.DS_Store
 /frontend/.env.local
 /frontend/.env.development.local

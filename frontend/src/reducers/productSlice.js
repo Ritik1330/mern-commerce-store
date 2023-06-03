@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   products: [],
   productsCounts: 0,
-  loading: Boolean,
+  resultperpage: 0,
+  loading: true,
   error: undefined,
 };
 
@@ -20,6 +21,7 @@ const productSlice = createSlice({
       state.loading = false;
       state.products = action.payload.products;
       state.productsCounts = action.payload.productcount;
+      state.resultperpage = action.payload.resultperpage;
   
 
     },

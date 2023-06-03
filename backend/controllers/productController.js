@@ -79,6 +79,7 @@ exports.getAllproducts = cachasycError(async (req, res, next) => {
     success: true,
     products,
     productcount,
+    resultperpage
   });
 });
 

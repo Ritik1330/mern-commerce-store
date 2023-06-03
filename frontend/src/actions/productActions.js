@@ -7,11 +7,13 @@ import {
   CLEAR_ERRORS,
 } from "../reducers/productSlice";
 
-export const getProduct = () => async (dispatch) => {
+export const getProduct = (keyword="",currentPage = 1) => async (dispatch) => {
   try {
     dispatch(ALL_PRODUCT_REQUEST());
-
-    const { data } = await axios.get("api/v1/products");
+    console.log("first")
+    console.log(currentPage)
+    let link =`/api/v1/products?keyword=${keyword}&page=${currentPage}`
+    const { data } = await axios.get(link);
     dispatch(ALL_PRODUCT_SUCCESS(data));
   } catch (error) {
     // console.log(error);

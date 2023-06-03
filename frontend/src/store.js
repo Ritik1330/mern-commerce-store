@@ -8,7 +8,7 @@ export default configureStore({
   reducer: {
 
 products:productSlice,
-produc:productDetailsSlice,
+productDetails:productDetailsSlice,
 
 devTools: process.env.NODE_ENV !== 'production',
 // prod:productSlice.reducer
