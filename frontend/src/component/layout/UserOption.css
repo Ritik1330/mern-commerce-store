@@ -1,0 +1,12 @@
+.speedDialIcon {
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+}
+
+.aleart {
+    position: fixed;
+    bottom: 2vmax;
+    right: 38%;
+    z-index: 1;
+}

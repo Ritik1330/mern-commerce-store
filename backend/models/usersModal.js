@@ -40,6 +40,10 @@ const userschema = new mongoose.Schema({
   },
   resetpasswordstoken: String,
   resetpasswordexpire: Date,
+  createdAt: {
+    type: Date,
+    default: Date.now,
+}
 
 });
 

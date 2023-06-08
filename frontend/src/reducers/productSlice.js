@@ -4,6 +4,7 @@ const initialState = {
   products: [],
   productsCounts: 0,
   resultperpage: 0,
+  filterdProductCount:0,
   loading: true,
   error: undefined,
 };
@@ -23,7 +24,7 @@ const productSlice = createSlice({
       state.productsCounts = action.payload.productcount;
       state.resultperpage = action.payload.resultperpage;
   
-
+      state.filterdProductCount = action.payload.filterdProductCount
     },
 
     ALL_PRODUCT_FAIL(state, action) {

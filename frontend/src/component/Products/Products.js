@@ -8,37 +8,60 @@ import Loader from "../layout/Loader/Loader";
 import Alert from "../layout/Aleart/Aleart";
 import { useParams } from "react-router-dom";
 import { current } from "@reduxjs/toolkit";
-import ReactPaginate from 'react-paginate';
+import ReactPaginate from "react-paginate";
+import Typography from "@mui/material/Typography";
+import Slider from "@mui/material/Slider";
+
+const Categories = [
+    "Laptop",
+    "Footwear",
+    "Bottom",
+    "Tops",
+    "camera",
+    "Smartphone",
+];
+
 function Products() {
     const dispatch = useDispatch();
     const params = useParams();
-    let keyword = params.keyword
+    let keyword = params.keyword;
 
-    const [currentPage, setcurrentPage] = useState()
+    const [currentPage, setcurrentPage] = useState();
+    const [Category, setCategory] = useState();
+    const [price, setprice] = React.useState([0, 25000]);
+    const [rating, setrating] = useState();
 
-    const { products, productsCounts, error, loading, resultperpage } = useSelector(
-        (state) => state.products
-    );
-    let pageCount = Math.ceil(productsCounts / resultperpage);
+    const handleChange = (event, newPrice) => {
+        setprice(newPrice);
+    };
+    const handleRating = (event, newRating) => {
+        setrating(newRating);
+    };
 
-    console.log("pageCount")
-    console.log(pageCount)
-    console.log(currentPage)
+    const {
+        products,
+        productsCounts,
+        error,
+        loading,
+        resultperpage,
+        filterdProductCount,
+    } = useSelector((state) => state.products);
+    let pageCount = Math.ceil(filterdProductCount / resultperpage);
+
     const handlePageClick = (event) => {
-        setcurrentPage(event.selected+1)
-    }
-
+        setcurrentPage(event.selected + 1);
+    };
 
     useEffect(
         (error) => {
-            dispatch(getProduct(keyword, currentPage));
+            dispatch(getProduct(keyword, currentPage, price, Category,rating));
             // if () {
             //     dispatch(clearErrors())
             //    }
 
-            console.log("useefect call")
+            console.log("useefect call");
         },
-        [dispatch, error, currentPage, keyword]
+        [dispatch, error, currentPage, keyword, price, Category,rating]
     );
 
     return (
@@ -58,51 +81,73 @@ function Products() {
                             ))}
                     </div>
 
-
-
-                    {/* <div className="paginationBox">
-                        <Pagination
-                           activePage={currentPage}
-                           itemsCountPerPage={resultperpage}
-                           totalItemsCount={productsCounts}
-                        //    pageRangeDisplayed={5}
-                           onChange={setCurrentPageNo}
+                    <div className="filterBox">
+                        <Typography>Price</Typography>
+                        <Slider
+                            getAriaLabel={() => "Temperature range"}
+                            value={price}
+                            onChange={handleChange}
+                            valueLabelDisplay="auto"
+                            // getAriaValueText={valuetext}
+                            min={0}
+                            // step={1}
+                            max={25000}
                         />
-                    </div> */}
+                        <Typography>Categories</Typography>
+                        <ul className="categorybox">
+                            {Categories.map((Category) => (
+                                <li
+                                    className="Category-link"
+                                    key={Category}
+                                    onClick={() => setCategory(Category)}
+                                >
+                                    {Category}
+                                </li>
+                            ))}
+                        </ul>
+                        <fieldset>
+                            <Typography component="legend" >Ratings Above</Typography>
+                            <Slider
+                             value={rating}
+                                size="small"
+                                defaultValue={0}
+                                aria-label="Small"
+                                valueLabelDisplay="auto"
+                                onChange={handleRating}
+                                min={0}
+                                max={5}
+                            />
+                        </fieldset>
+                    </div>
 
                 </Fragment>
             )}
 
-
-            
-<div className="paginationBox">
-
-
-<ReactPaginate
-    previousLabel={'previous'}
-    nextLabel={'next'}
-    breakLabel={'...'}
-    breakClassName={'break-me'}
-    pageCount={pageCount}
-    marginPagesDisplayed={2}
-    pageRangeDisplayed={5}
-    onPageChange={handlePageClick}
-    containerClassName={'pagination'}
-    subContainerClassName={'pages pagination'}
-    activeClassName={'active'}
-    className ="ultag"
-    pageClassName="litag"
-    previousClassName ="atag"
-    nextClassName ="atag"
-    previousLinkClassName = "atag"
-    nextLinkClassName = "atag"
-    pageLinkClassName ="atag1"
-    activeLinkClassName="active"
-/>
-   
-  
-</div>
-
+            {resultperpage < filterdProductCount && (
+                <div className="paginationBox">
+                    <ReactPaginate
+                        previousLabel={"previous"}
+                        nextLabel={"next"}
+                        breakLabel={"..."}
+                        breakClassName={"break-me"}
+                        pageCount={pageCount}
+                        marginPagesDisplayed={2}
+                        pageRangeDisplayed={5}
+                        onPageChange={handlePageClick}
+                        containerClassName={"pagination"}
+                        subContainerClassName={"pages pagination"}
+                        activeClassName={"active"}
+                        className="ultag"
+                        pageClassName="litag"
+                        previousClassName="atag"
+                        nextClassName="atag"
+                        previousLinkClassName="atag"
+                        nextLinkClassName="atag"
+                        pageLinkClassName="atag1"
+                        activeLinkClassName="active"
+                    />
+                </div>
+            )}
         </Fragment>
     );
 }

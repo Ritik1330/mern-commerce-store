@@ -9,6 +9,7 @@ export default function Search() {
 
 
     const searchSubmitHandler = (e) => {
+        // for stoprelod page
         e.preventDefault()
         if (Keyword.trim()) {
             history(`/products/${Keyword}`)

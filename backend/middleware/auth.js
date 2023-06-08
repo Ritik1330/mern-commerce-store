@@ -17,7 +17,7 @@ exports.isAuthentictedUser = cachasycError(async (req, res, next) => {
 
     }
     const decodeddata = jwt.verify(token, process.env.JWT_SECRET)
-
+console.log(decodeddata)
     // for add in produc create user
     //  and verification
     req.user = await User.findById(decodeddata.id);

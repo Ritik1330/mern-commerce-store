@@ -11,6 +11,9 @@
 # production
 /frontend/build
 
+/backend/config/config.env
+
+
 # misc
 /frontend/.test.css
 /frontend/.Test.js

@@ -68,18 +68,24 @@ exports.getAllproducts = cachasycError(async (req, res, next) => {
   // return next(new ErrorHander("product not found+ asdfghjkl", 404));
 
   const resultperpage = 10;
+  const productcount = await Product.countDocuments();
   const Apifeature = new Apifeatures(Product.find(), req.query)
     .search()
     .filter()
-    .pagination(resultperpage);
-  // const resultperpage =5;
-  const productcount = await Product.countDocuments();
-  const products = await Apifeature.query;
+
+  let products = await Apifeature.query.clone()
+  let filterdProductCount = products.length;
+
+  Apifeature.pagination(resultperpage);
+
+    products = await Apifeature.query;
+
   res.status(200).json({
     success: true,
     products,
     productcount,
-    resultperpage
+    resultperpage,
+    filterdProductCount,
   });
 });
 
