@@ -18,6 +18,7 @@ const sendToken = (user, stauscode, res, req) => {
     res.status(stauscode).cookie('token', token, options).json({
         success: true,
         toka: token,
+        message:"process done",
         user
 
     })

@@ -10,12 +10,22 @@ import Home from "./component/home/Home.js";
 import Products from "./component/Products/Products.js";
 import ProductDetails from "./component/product/ProductDetails.js";
 import Search from "./component/product/Search.js";
-import LoginSignUp from "./component/user/LoginSignUp.js";
-import Profile from "./component/user/Profile.js";
 import { useDispatch, useSelector } from "react-redux";
-import { loadUser } from "./actions/userAction";
+import { loadUser } from "./redux/actions/userAction";
 import UserOption from "./component/layout/UserOption.js";
 import ProtectedRoute from "./component/Route/ProtectedRoute";
+import LoginSignUp from "./component/user/LoginSignUp.js";
+import Profile from "./component/user/Profile.js";
+import UpdateProfile from "./component/user/UpdateProfile.js";
+import UpdatePassword from "./component/user/UpdatePassword.js";
+import ForgetPassword from "./component/user/ForgetPassword";
+import ResetPassword from "./component/user/ResetPassword";
+import Cart from "./component/cart/Cart.js";
+import Shipping from "./component/cart/Shipping";
+import ConfirmOrder from "./component/cart/ConfirmOrder";
+import Payment from "./component/cart/Payment";
+
+
 
 function App() {
   const dispatch = useDispatch();
@@ -29,7 +39,7 @@ function App() {
     });
     console.log("app");
     dispatch(loadUser());
-  }, []);
+  }, [dispatch]);
 
   return (
     <Router>
@@ -44,16 +54,63 @@ function App() {
         <Route path="/test" element={<Test />} />
         <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/login" element={<LoginSignUp />} />
+        <Route path="/password/forget" element={<ForgetPassword />} />
+        <Route path="/password/reset" element={<ResetPassword />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/shipping" element={<Shipping />} />
         
-        <Route
-          path="/account"
-          element={
-            <ProtectedRoute  >
-              <Profile />
-            </ProtectedRoute>
-          }
-        />
-        
+        <Route path="/order/confirm" element={<ConfirmOrder />} />
+
+        {loading === false && (
+          <Route
+            path="/account"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+        )}
+        {!loading && (
+          <Route
+            path="/me/update"
+            element={
+              <ProtectedRoute>
+                <UpdateProfile />
+              </ProtectedRoute>
+            }
+          />
+        )}
+        {!loading && (
+          <Route
+            path="password/update"
+            element={
+              <ProtectedRoute>
+                <UpdatePassword />
+              </ProtectedRoute>
+            }
+          />
+        )}
+        {!loading && (
+          <Route
+            path="/order/confirm"
+            element={
+              <ProtectedRoute>
+                <ConfirmOrder />
+              </ProtectedRoute>
+            }
+          />
+        )}
+        {!loading && (
+          <Route
+            path="/process/payment"
+            element={
+              <ProtectedRoute>
+                <Payment />
+              </ProtectedRoute>
+            }
+          />
+        )}
       </Routes>
 
       <Footer></Footer>
@@ -62,43 +119,3 @@ function App() {
 }
 
 export default App;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

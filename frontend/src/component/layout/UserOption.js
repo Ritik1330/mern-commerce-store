@@ -6,14 +6,16 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import ExitToApp from "@mui/icons-material/ExitToApp";
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Alert } from "@mui/material";
-import { logOut } from "../../actions/userAction";
+import { logOut } from "../../redux/actions/userAction";
 import Backdrop from "@mui/material/Backdrop";
 
 export default function UserOption() {
   const { user } = useSelector((state) => state.user);
+  const { cartItems } = useSelector((state) => state.cart);
   let history = useNavigate();
   let dispatch = useDispatch();
   const [logout, setlogout] = useState(false);
@@ -22,7 +24,9 @@ export default function UserOption() {
   const actions = [
     { icon: <ListAltIcon />, name: "orders", fun: orders },
     { icon: <AccountCircleIcon />, name: "Profilet", fun: account },
+    { icon: <ShoppingCartIcon style={{color:cartItems.length>0?"tomato":"unset"}} />, name: `cart(${cartItems.length})`, fun: gotocart  },
     { icon: <ExitToApp />, name: "Logout", fun: logoutUser },
+
   ];
   if (user.role === "admin") {
     actions.unshift({
@@ -33,6 +37,9 @@ export default function UserOption() {
   }
   function dashbord() {
     history("./dashbord");
+  }
+  function gotocart() {
+    history("./cart");
   }
   function orders() {
     history("/orders");
@@ -90,6 +97,7 @@ export default function UserOption() {
             icon={action.icon}
             tooltipTitle={action.name}
             onClick={action.fun}
+            tooltipOpen ={window.innerWidth<600 ?true:false}
           />
         ))}
       </SpeedDial>

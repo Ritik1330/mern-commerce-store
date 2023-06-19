@@ -1,8 +1,8 @@
 import React from "react";
 import { ReactNavbar } from "overlay-navbar";
 import logo from "../../../images/logo.png";
-import { FaSearch, FaUserAlt, FaCarAlt } from "react-icons/fa";
-
+import { FaSearch, FaUserAlt, FaCartPlus } from "react-icons/fa";
+import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 const options = {
   burgerColor: "#669999",
   burgerColorHover: "#eb4034",
@@ -41,7 +41,7 @@ const options = {
   searchIcon: true,
   SearchIconElement: FaSearch,
   cartIcon: true,
-  CartIconElement: FaCarAlt,
+  CartIconElement: FaCartPlus,
 
   // cartIconColorHover: "#eb4034",
 };

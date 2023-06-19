@@ -12,6 +12,7 @@ const userSlice = createSlice({
   initialState,
 
   reducers: {
+    //login
     loginRequest: (state, action) => {
       state.loading = true;
       state.user = [];
@@ -60,16 +61,17 @@ const userSlice = createSlice({
 
     // load user data
     userDataRequest: (state, action) => {
-      console.log("sl")
+      // console.log("sl");
       state.loading = true;
+      state.isAuthecated = false;
       state.user = [];
-     
     },
     userDataSuccess: (state, action) => {
       state.loading = false;
       state.user = action.payload.user;
+      // state.error = action.payload.message;
       state.isAuthecated = true;
-      console.log("slice")
+      console.log("slice");
     },
 
     userDataFail(state, action) {
@@ -78,6 +80,7 @@ const userSlice = createSlice({
       state.user = null;
       state.error = action.payload;
     },
+  
 
     clearEroors: (state, action) => {
       state.error = null;

@@ -5,7 +5,7 @@ import "./ProductDetails.css";
 
 
 function ReviewCard({review}) {
-    console.log(review)
+    // console.log(review)
   let Options = {
     edit: false,
     size: window.innerWidth < 600 ? 25 : 20,
