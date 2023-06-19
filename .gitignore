@@ -12,7 +12,8 @@
 /frontend/build
 
 /backend/config/config.env
-
+backend\config\config.env
+backend/config/config.env
 
 # misc
 /frontend/.test.css
