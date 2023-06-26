@@ -20,43 +20,15 @@ app.use(fileUpload());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 
-
-
-
-// app.use((req, res, next) => {
-//     const err = new Error('Not Found');
-//     err.status = 404;
-//     next(err);
-//   });
-  
-//   app.use((err, req, res, next) => {
-//     res.locals.error = err;
-//     const status = err.status || 500;
-//     res.status(status);
-//     res.render('error');
-//   });
-
-  
-//   app.set('view engine', 'ejs');
-
-
-
-
-
-
-
-
-
-
-
-
 //route import
 const routeproduct = require("./routes/productRoutes");
 const user = require("./routes/userRoutes");
 const order = require("./routes/orderRoutes");
+const payment = require("./routes/paymentRoutes");
 app.use("/api/v1", routeproduct);
 app.use("/api/v1", user);
 app.use("/api/v1", order);
+app.use("/api/v1", payment);
 
 //midelware for error
 app.use(errorMiddleware);

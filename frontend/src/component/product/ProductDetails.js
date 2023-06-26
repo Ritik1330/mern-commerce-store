@@ -14,6 +14,15 @@ import ReviewCard from "./ReviewCard.js";
 import Loader from "../layout/Loader/Loader";
 import Alert from "../layout/Aleart/Aleart";
 import { addToCartitem } from "../../redux/actions/cartAction";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import Button from "@mui/material/Button";
+import Rating from "@mui/material/Rating";
+import { createReview } from "../../redux/actions/reviewAction";
+import { reviewReset } from "../../redux/reducers/reviewSlice";
 
 function ProductDetails() {
   const dispatch = useDispatch();
@@ -21,7 +30,22 @@ function ProductDetails() {
   const { product, loading, error } = useSelector(
     (state) => state.productDetails
   );
+  const { success } = useSelector((state) => state.newReview);
   const [quantity, setQuqntity] = useState(1);
+  // const [quantity, setQuantity] = useState(1);
+  const [open, setOpen] = useState(false);
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
+  const [productId, setproductId] = useState(params.id);
+
+  const submitReviewToggle = () => {
+    open ? setOpen(false) : setOpen(true);
+  };
+  const reviewSubmitHandler = () => {
+    // console.log("submit hedaler");
+    dispatch(createReview(rating, comment, productId));
+    open ? setOpen(false) : setOpen(true);
+  };
   const increaseQuantity = () => {
     // console.log(product.stock )
     // console.log(first)
@@ -41,17 +65,20 @@ function ProductDetails() {
 
   useEffect(() => {
     dispatch(getProductDetails(params.id));
+    if (success === true) {
+      dispatch(reviewReset());
+    }
+
     //  if (error!=null) {
     //   dispatch(clearErrors())
     //  }
-  }, [dispatch, params.id, error]);
+  }, [dispatch, params.id, error, success]);
 
   let Options = {
-    edit: false,
-    size: window.innerWidth < 600 ? 25 : 20,
-    activeColor: "tomato",
+    readOnly: true,
+    size: "large",
     value: product.ratings,
-    isHalf: true,
+    precision: 0.5,
   };
 
   return (
@@ -83,7 +110,7 @@ function ProductDetails() {
                 <p>product # {product._id}</p>
               </div>
               <div className="detailsBlock-2">
-                <ReactStars {...Options} />{" "}
+                <Rating {...Options} />{" "}
                 <span>({product.NumberofReviews} reviews)</span>
               </div>
               <div className="detailsBlock-3">
@@ -106,11 +133,44 @@ function ProductDetails() {
               <div className="detailsBlock-4">
                 Description : <p>{product.description}</p>
               </div>
-              <div className="submitReview">Submit review</div>
+              <div className="submitReview" onClick={submitReviewToggle}>
+                Submit review
+              </div>
             </div>
           </div>
 
           <h3 className="reviewsHeading">REVIEWS</h3>
+          <Dialog
+            aria-labelledby="simple-dialog-title"
+            open={open}
+            onClose={submitReviewToggle}
+          >
+            <DialogTitle>Submit Review</DialogTitle>
+            <DialogContent className="submitDialog">
+              <Rating
+                onChange={(e) => setRating(e.target.value)}
+                value={rating}
+                size="large"
+              />
+
+              <textarea
+                className="submitDialogTextArea"
+                cols="30"
+                rows="5"
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+              ></textarea>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={submitReviewToggle} color="secondary">
+                Cancel
+              </Button>
+              <Button onClick={reviewSubmitHandler} color="primary">
+                Submit
+              </Button>
+            </DialogActions>
+          </Dialog>
+
           {product.reviews && product.reviews[0] ? (
             <div className="reviews">
               {product.reviews &&

@@ -92,7 +92,7 @@
     align-items: center;
   }
   
-  .productCard > div > Span {
+  .productCardRatingSpan {
     margin: 0.5vmax;
     font: 300 0.7vmax "Roboto";
   }

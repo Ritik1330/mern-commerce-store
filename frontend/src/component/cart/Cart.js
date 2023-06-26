@@ -63,7 +63,7 @@ const Cart = () => {
                   <div className="cartInput">
                     <button
                       onClick={() =>
-                        decreaseQuantity(item.product, item.quantity)
+                        decreaseQuantity(item.productId, item.quantity)
                       }
                     >
                       -

@@ -5,6 +5,7 @@ const cachasycError = require("../middleware/cachasycError");
 
 //create new ordeo
 exports.newOrder = cachasycError(async (req, res, next) => {
+  console.log(req.body)
   const {
     shippingInfo,
     orderItems,
@@ -36,18 +37,18 @@ exports.newOrder = cachasycError(async (req, res, next) => {
 // get order detailes
 
 exports.getSingalOrder = cachasycError(async (req, res, next) => {
-  const orders = await Order.findById(req.params.id).populate(
+  const order = await Order.findById(req.params.id).populate(
     "user",
     "name email"
   );
   // console.log(req.params .id)
-  if (!orders) {
+  if (!order) {
     return next(new ErrorHander("order not found with this is", 404));
   }
 
   res.status(200).json({
     success: true,
-    orders,
+    order,
     // "totalAmaunt":totalAmaunt
   });
 });

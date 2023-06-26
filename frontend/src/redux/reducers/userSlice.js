@@ -43,7 +43,7 @@ const userSlice = createSlice({
 
     registerFail(state, action) {
       state.loading = false;
-      state.isAuthecated = false;
+      state.isAuthecated = null;
       state.user = null;
       state.error = action.payload;
     },

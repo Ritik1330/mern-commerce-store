@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import { BrowserRouter as Router } from "react-router-dom";
 import WebFont from "webfontloader";
@@ -24,12 +24,22 @@ import Cart from "./component/cart/Cart.js";
 import Shipping from "./component/cart/Shipping";
 import ConfirmOrder from "./component/cart/ConfirmOrder";
 import Payment from "./component/cart/Payment";
-
-
+import axios from "axios";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import OrderSuccess from "./component/cart/OrderSuccess";
+import MyOrder from "./component/order/MyOrder";
+import OrderDetails from "./component/order/OrderDetails";
 
 function App() {
   const dispatch = useDispatch();
   const { isAuthecated, loading } = useSelector((state) => state.user);
+  const [stripeapikey, setstripeapikey] = useState();
+  async function getStripeapiKet() {
+    const { data } = await axios.get("/api/v1/stripeapikey");
+
+    setstripeapikey(data.stripeapikey7);
+  }
 
   useEffect(() => {
     WebFont.load({
@@ -58,59 +68,79 @@ function App() {
         <Route path="/password/reset" element={<ResetPassword />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/shipping" element={<Shipping />} />
-        
+
         <Route path="/order/confirm" element={<ConfirmOrder />} />
 
-        {loading === false && (
-          <Route
-            path="/account"
-            element={
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            }
-          />
-        )}
-        {!loading && (
-          <Route
-            path="/me/update"
-            element={
-              <ProtectedRoute>
-                <UpdateProfile />
-              </ProtectedRoute>
-            }
-          />
-        )}
-        {!loading && (
-          <Route
-            path="password/update"
-            element={
-              <ProtectedRoute>
-                <UpdatePassword />
-              </ProtectedRoute>
-            }
-          />
-        )}
-        {!loading && (
-          <Route
-            path="/order/confirm"
-            element={
-              <ProtectedRoute>
-                <ConfirmOrder />
-              </ProtectedRoute>
-            }
-          />
-        )}
-        {!loading && (
-          <Route
-            path="/process/payment"
-            element={
-              <ProtectedRoute>
-                <Payment />
-              </ProtectedRoute>
-            }
-          />
-        )}
+        <Route
+          path="/account"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/me/update"
+          element={
+            <ProtectedRoute>
+              <UpdateProfile />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="password/update"
+          element={
+            <ProtectedRoute>
+              <UpdatePassword />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/order/confirm"
+          element={
+            <ProtectedRoute>
+              <ConfirmOrder />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/order/:id"
+          element={
+            <ProtectedRoute>
+              <OrderDetails />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/process/payment"
+          element={
+            <ProtectedRoute>
+              <Payment />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/OrderSuccess"
+          element={
+            <ProtectedRoute>
+              <OrderSuccess />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/orders"
+          element={
+            <ProtectedRoute>
+              {" "}
+              <MyOrder />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
 
       <Footer></Footer>

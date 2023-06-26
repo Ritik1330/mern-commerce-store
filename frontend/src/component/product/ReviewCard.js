@@ -1,26 +1,24 @@
 import React from "react";
-import ReactStars from "react-rating-stars-component";
-import profilepng from '../../images/Profile.png'
+
+import profilepng from "../../images/Profile.png";
 import "./ProductDetails.css";
+import Rating from "@mui/material/Rating";
 
-
-function ReviewCard({review}) {
-    // console.log(review)
+function ReviewCard({ review }) {
   let Options = {
-    edit: false,
-    size: window.innerWidth < 600 ? 25 : 20,
-    activeColor: "tomato",
+    readOnly: true,
+    // size: "large",
     value: review.rating,
-    isHalf: true,
+    precision: 0.5,
   };
-
-  return <div className="reviewCard">
-
-<img src={profilepng} alt="user" />
-    <p>{review.name}</p>
-<ReactStars {...Options} />
-<span>{review.comment}</span>
-  </div>;
+  return (
+    <div className="reviewCard">
+      <img src={profilepng} alt="user" />
+      <p>{review.name}</p>
+      <Rating {...Options} />
+      <span>{review.comment}</span>
+    </div>
+  );
 }
 
 export default ReviewCard;
