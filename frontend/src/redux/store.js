@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
+import productsSlice from "./reducers/productsSlice";
 import productSlice from "./reducers/productSlice";
-import productDetailsSlice from "./reducers/productDetailsSlice";
+import productDetailSlice from "./reducers/productDetailSlice";
 import userSlice from "./reducers/userSlice";
 import profileUpdateSlice from "./reducers/profileUpdateSlice";
 import passwordSlice from "./reducers/passwordSlice";
@@ -9,6 +10,9 @@ import orderslice from "./reducers/orderslice";
 import myOrderslice from "./reducers/myOrdersSlice";
 import orderDetailsslice from "./reducers/orderDetailsslice";
 import reviewSlice from "./reducers/reviewSlice";
+import allUsersSlice from "./reducers/allUsersSlice";
+import allorderSlice from "./reducers/allorderSlice.js";
+import newProductSlice from "./reducers/newProductSlice.js";
 
 let initialState = {
   cart: {
@@ -21,16 +25,28 @@ let initialState = {
 export default configureStore({
   reducer: {
     devTools: process.env.NODE_ENV !== "production",
-    products: productSlice,
-    productDetails: productDetailsSlice,
+    products: productsSlice,
+    productDetails: productDetailSlice,
+    product: productSlice,
     user: userSlice,
     profile: profileUpdateSlice,
     password: passwordSlice,
     cart: cartSlice,
     newOrder: orderslice,
-    myOrders:myOrderslice,
-    orderDetails:orderDetailsslice,
+    myOrders: myOrderslice,
+    orderDetails: orderDetailsslice,
     newReview: reviewSlice,
+    allUsers: allUsersSlice,
+    allOrders: allorderSlice,
+    newProduct: newProductSlice,
+
+    // order: orderReducer,
+    // allUsers: allUsersReducer,
+    // userDetails: userDetailsReducer,
+    // productReviews: productReviewsReducer,
+    // review: reviewReducer,
+
+    // order: orderReducer,
     // prod:productSlice.reducer
   },
   initialState,

@@ -5,7 +5,8 @@ import {
   PRODUCT_DETAILS_SUCCESS,
   PRODUCT_DETAILS_FAIL,
   CLEAR_ERRORS,
-} from "../reducers/productDetailsSlice";
+} from "../reducers/productDetailSlice";
+import {} from "../reducers/newProductSlice";
 
 export const getProductDetails = (id) => async (dispatch) => {
   try {
@@ -14,7 +15,7 @@ export const getProductDetails = (id) => async (dispatch) => {
     const { data } = await axios.get(`/api/v1/product/${id}`);
     dispatch(PRODUCT_DETAILS_SUCCESS(data.product));
   } catch (error) {
-
+    // dispatch(PRODUCT_DETAILS_FAIL(error));
     dispatch(PRODUCT_DETAILS_FAIL(error.response.data.message));
   }
 };

@@ -3,7 +3,7 @@ import "./products.css";
 import ProductCard from "../home/ProductCard.js";
 // import MetaData from '../layout/Footer/MetaData'
 import { useDispatch, useSelector } from "react-redux";
-import { getProduct, clearErrors } from "../../redux/actions/productActions";
+import { getProduct, clearErrors } from "../../redux/actions/productsActions";
 import Loader from "../layout/Loader/Loader";
 import Alert from "../layout/Aleart/Aleart";
 import { useParams } from "react-router-dom";

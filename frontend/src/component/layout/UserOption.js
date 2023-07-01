@@ -36,7 +36,7 @@ export default function UserOption() {
     });
   }
   function dashbord() {
-    history("./dashbord");
+    history("./admin/dashboard");
   }
   function gotocart() {
     history("./cart");

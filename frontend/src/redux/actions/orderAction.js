@@ -6,6 +6,12 @@ import {
   orderFail,
   clearEroors,
 } from "../reducers/orderslice";
+import {
+  adminAllOrdersRequest,
+  adminAllOrdersSuccess,
+  adminAllOrdersFail,
+  CLEAR_ERRORS
+} from "../reducers/allorderSlice";
 
 // create order
 
@@ -25,4 +31,20 @@ export const createOrder = (order) => async (dispatch) => {
 
 export const clearErrors = () => async (dispatch) => {
   dispatch(clearEroors());
+};
+
+//admin gate all order
+
+export const getAllOrders = (order) => async (dispatch) => {
+  try {
+    dispatch(adminAllOrdersRequest());
+
+    const config = { headers: { "Content-Type": "application/json" } };
+    const { data } = await axios.get("/api/v1/admin/orders", order, config);
+
+    dispatch(adminAllOrdersSuccess(data));
+  } catch (error) {
+    console.log(error.message);
+    dispatch(adminAllOrdersFail(error.response.data.message));
+  }
 };

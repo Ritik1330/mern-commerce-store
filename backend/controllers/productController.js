@@ -3,15 +3,40 @@ const ErrorHander = require("../utils/errorhander");
 const cachasycError = require("../middleware/cachasycError");
 const Apifeatures = require("../utils/apifeatures");
 const { findById } = require("../models/usersModal");
+var cloudinary = require("cloudinary").v2;
 
 //create product --admin
 
 exports.createProduct = cachasycError(async (req, res, next) => {
-  // console.log(req.body.id)
-  console.log(req.body.id);
+  if (req.body.images===undefined) {
+    return next(new ErrorHander("product image is requrid", 401));
+  }
+  let images = [];
+  if (typeof req.body.images === "string") {
+    images.push(req.body.images);
+  } else {
+    images = req.body.images;
+  }
+  imagesLink = [];
+  for (let i = 0; i < images.length; i++) {
+    let myCloud = null;
+    if (images.length === 1) {
+      myCloud = await cloudinary.uploader.upload(req.body.images, {
+        folder: "products",
+      });
+    } else {
+      myCloud = await cloudinary.uploader.upload(req.body.images[i], {
+        folder: "products",
+      });
+    }
 
+    imagesLink.push({
+      public_id: myCloud.public_id,
+      url: myCloud.secure_url,
+    });
+  }
+  req.body.images = imagesLink;
   req.body.user = req.user.id;
-  console.log("ritik");
   const product = await Product.create(req.body);
   res.status(201).json({
     success: true,
@@ -23,23 +48,55 @@ exports.createProduct = cachasycError(async (req, res, next) => {
 
 exports.updateproduct = cachasycError(async (req, res, next) => {
   let product = await Product.findById(req.params.id);
+  let images = [];
+  imagesLink = [];
   if (!product) {
     res.status(500).json({
       success: false,
       Message: "product not found",
     });
-  } else {
-    const Products = await Product.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      useFindAndModify: false,
-      runValidators: true,
-    });
-
-    res.status(200).json({
-      success: true,
-      Products,
-    });
   }
+  if (typeof req.body.images === "string") {
+    images.push(req.body.images);
+  } else {
+    images = req.body.images;
+  }
+  if (images !== undefined) {
+    for (let i = 0; i < product.images.length; i++) {
+      const imageId = product.images[i].public_id;
+      await cloudinary.uploader.destroy(imageId);
+    }
+
+    for (let i = 0; i < images.length; i++) {
+      let myCloud = null;
+      if (images.length === 1) {
+        myCloud = await cloudinary.uploader.upload(req.body.images, {
+          folder: "products",
+        });
+      } else {
+        myCloud = await cloudinary.uploader.upload(req.body.images[i], {
+          folder: "products",
+        });
+      }
+
+      imagesLink.push({
+        public_id: myCloud.public_id,
+        url: myCloud.secure_url,
+      });
+    }
+    req.body.images = imagesLink;
+  }
+  // req.body.user = req.user.id;
+  const Products = await Product.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    useFindAndModify: false,
+    runValidators: true,
+  });
+
+  res.status(200).json({
+    success: true,
+    Products,
+  });
 });
 
 // delete product---admin
@@ -53,6 +110,10 @@ exports.deleteproducts = cachasycError(async (req, res, next) => {
       Message: "product not found",
     });
   } else {
+    for (let i = 0; i < product.images.length; i++) {
+      const imageId = product.images[i].public_id;
+      await cloudinary.uploader.destroy(imageId);
+    }
     await Product.findByIdAndRemove(req.params.id);
 
     res.status(200).json({
@@ -71,14 +132,14 @@ exports.getAllproducts = cachasycError(async (req, res, next) => {
   const productcount = await Product.countDocuments();
   const Apifeature = new Apifeatures(Product.find(), req.query)
     .search()
-    .filter()
+    .filter();
 
-  let products = await Apifeature.query.clone()
+  let products = await Apifeature.query.clone();
   let filterdProductCount = products.length;
 
   Apifeature.pagination(resultperpage);
 
-    products = await Apifeature.query;
+  products = await Apifeature.query;
 
   res.status(200).json({
     success: true,
@@ -86,6 +147,18 @@ exports.getAllproducts = cachasycError(async (req, res, next) => {
     productcount,
     resultperpage,
     filterdProductCount,
+  });
+});
+//get all product by admin
+
+exports.getAdminproducts = cachasycError(async (req, res, next) => {
+  // return next(new ErrorHander("product not found+ asdfghjkl", 404));
+
+  const products = await Product.find();
+
+  res.status(200).json({
+    success: true,
+    products,
   });
 });
 

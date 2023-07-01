@@ -2,18 +2,18 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   product: {},
-  loading: true,
+  loading: false,
   error: undefined,
 };
 
-const productDetailsSlice = createSlice({
+const productSlice = createSlice({
   name: "product",
   initialState,
 
   reducers: {
     PRODUCT_DETAILS_REQUEST: (state, action) => {
       state.loading = true;
-      state.product = [];
+      // state.product = [];
     },
     PRODUCT_DETAILS_SUCCESS: (state, action) => {
       state.loading = false;
@@ -37,6 +37,6 @@ export const {
   PRODUCT_DETAILS_SUCCESS,
   PRODUCT_DETAILS_FAIL,
   CLEAR_ERRORS,
-} = productDetailsSlice.actions;
+} = productSlice.actions;
 
-export default productDetailsSlice.reducer;
+export default productSlice.reducer;

@@ -23,7 +23,10 @@ import {
   // updatePasswordReset,
   updatePasswordFail,
 } from "../reducers/profileUpdateSlice";
-
+import { adminallUsersRequest,
+  adminallUsersSuccess,
+  adminallUsersFail,
+  CLEAR_ERRORS } from "../reducers/allUsersSlice";
 
 // register user
 export const register = (myForm) => async (dispatch) => {
@@ -115,4 +118,17 @@ export const updatePassword = (myForm) => async (dispatch) => {
 
 export const clearErrors = () => async (dispatch) => {
   dispatch(clearEroors());
+};
+
+//get all user admin
+// load user data
+export const getAllUsers = () => async (dispatch) => {
+  try {
+    dispatch(adminallUsersRequest());
+
+    const { data } = await axios.get("/api/v1/admin/users");
+    dispatch(adminallUsersSuccess(data));
+  } catch (error) {
+    dispatch(adminallUsersFail(error.response.data.message));
+  }
 };

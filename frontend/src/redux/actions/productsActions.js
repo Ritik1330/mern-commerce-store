@@ -5,10 +5,13 @@ import {
   ALL_PRODUCT_SUCCESS,
   ALL_PRODUCT_FAIL,
   CLEAR_ERRORS,
-} from "../reducers/productSlice";
-
+  adminProductRequest,
+  adminProductSuccess,
+  adminProductFail
+} from "../reducers/productsSlice";
+// get all product buy user
 export const getProduct =
-  (keyword = "", currentPage = 1, price = [0, 25000], Category,rating=0) =>
+  (keyword = "", currentPage = 1, price = [0, 250000], Category, rating = 0) =>
   async (dispatch) => {
     try {
       dispatch(ALL_PRODUCT_REQUEST());
@@ -25,6 +28,19 @@ export const getProduct =
       dispatch(ALL_PRODUCT_FAIL(error.response.data.message));
     }
   };
+
+// get all product bu admin
+export const getAdminProduct = () => async (dispatch) => {
+  try {
+    dispatch(adminProductRequest());
+    
+    const { data } = await axios.get("/api/v1/admin/products");
+    dispatch(adminProductSuccess(data));
+  } catch (error) {
+    // console.log(error);
+    dispatch(adminProductFail(error.response.data.message));
+  }
+};
 
 export const clearErrors = () => async (dispatch) => {
   dispatch(CLEAR_ERRORS());
