@@ -10,13 +10,13 @@
     "@mui/material": "^5.13.6",
     "@mui/x-data-grid": "^6.9.0",
     "@reduxjs/toolkit": "^1.9.5",
-    "@stripe/react-stripe-js": "^2.1.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.4.0",
     "chart.js": "^4.3.0",
     "country-state-city": "^3.1.4",
+    "marn": "file:..",
     "overlay-navbar": "^1.2.3",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
@@ -42,7 +42,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "build_i": "npm i "
   },
   "eslintConfig": {
     "extends": [
