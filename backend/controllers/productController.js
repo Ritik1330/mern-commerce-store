@@ -103,7 +103,7 @@ exports.updateproduct = cachasycError(async (req, res, next) => {
 
 exports.deleteproducts = cachasycError(async (req, res, next) => {
   let product = await Product.findByIdAndDelete(req.params.id);
-  console.log(`delete${product}`);
+  //console.log(`delete${product}`);
   if (!product) {
     res.status(500).json({
       success: false,
@@ -253,7 +253,7 @@ exports.deleteproductsReview = cachasycError(async (req, res, next) => {
   let reviews = await product.reviews.filter(
     (rev) => rev._id.toString() !== req.query.id.toString()
   );
-  console.log(reviews);
+  //console.log(reviews);
   let NumberofReviews = reviews.lengt;
 
   let total = 0;

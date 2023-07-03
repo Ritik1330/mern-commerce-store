@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node backend/server.js",
     "dev": "nodemon backend/server.js ",
-    "postbuild": "NPM_CONFIG_PRODUCTION=false && npm install --prefix frontend && npm run build --prefix frontend"
+    "start": "node backend/server.js",
+    "poststart": "npm run build --prefix frontend && node backend/server.js",
+    "postbuild": "npm run build_i --prefix frontend && npm i && npm run build --prefix frontend "
   },
   "author": "",
   "license": "ISC",
@@ -29,5 +30,4 @@
   "engines": {
     "node": ">=14.20.1"
   }
-
 }

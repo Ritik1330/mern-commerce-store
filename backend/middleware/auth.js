@@ -19,7 +19,7 @@ exports.isAuthentictedUser = cachasycError(async (req, res, next) => {
     return next(new Errorhandler("LOGIN FOR THIS RESORS", 401));
   }
   const decodeddata = jwt.verify(token, process.env.JWT_SECRET);
-  console.log(decodeddata);
+  // console.log(decodeddata);
   // for add in produc create user
   //  and verification
   req.user = await User.findById(decodeddata.id);
@@ -30,7 +30,7 @@ exports.isAuthentictedUser = cachasycError(async (req, res, next) => {
 
 exports.authrizeRoles = (...roles) => {
   return (req, res, next) => {
-    console.log(roles);
+    // console.log(roles);
     if (!roles.includes(req.user.role)) {
       return next(
         new Errorhandler(

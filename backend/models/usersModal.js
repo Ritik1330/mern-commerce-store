@@ -62,7 +62,7 @@ userschema.pre("save", async function (next) {
 
 //jwt token for direct login
 userschema.methods.getJWTToken = function () {
-  console.log(`jt${this._id}`)
+  // console.log(`jt${this._id}`)
   return jwt.sign({
     id:
       this._id
@@ -83,12 +83,12 @@ userschema.methods.getResetPasswordToken = function () {
 
   // genreting token
   const resetToken = crypto.randomBytes(20).toString("hex")
-  console.log( resetToken )
+  // console.log( resetToken )
   // adding resetpasswordtoken to userschkima
   this.resetpasswordstoken = crypto.createHash("sha256").
     update(resetToken)
     .digest("hex")
-    console.log( this.resetpasswordstoken )
+    // console.log( this.resetpasswordstoken )
 // adding resetpasswordexpire to userschkima
 this.resetpasswordexpire = Date.now()+15*60*1000
     return resetToken

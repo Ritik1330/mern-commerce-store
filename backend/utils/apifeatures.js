@@ -28,16 +28,16 @@ class Apifeatures {
     const removeFilds = ["keyword", "page", "limi"];
     removeFilds.forEach((key) => {
       delete copyqurystr[key];
-      // console.log(key)
+      // //console.log(key)
     });
-    // console.log(copyqurystr)
+    // //console.log(copyqurystr)
     // filter gor prise
     let queryforprise = JSON.stringify(copyqurystr);
     queryforprise = queryforprise.replace(
       /\b(gt|gte|lt|lte)\b/g,
       (key) => `$${key}`
     );
-    console.log(queryforprise)
+    //console.log(queryforprise)
     // this.query = this.query.find(copyqurystr)
     this.query = this.query.find(JSON.parse(queryforprise));
 

@@ -5,7 +5,7 @@ const cachasycError = require("../middleware/cachasycError");
 
 //create new ordeo
 exports.newOrder = cachasycError(async (req, res, next) => {
-  console.log(req.body);
+  //console.log(req.body);
   const {
     shippingInfo,
     orderItems,
@@ -40,7 +40,7 @@ exports.getSingalOrder = cachasycError(async (req, res, next) => {
     "user",
     "name email"
   );
-  // console.log(req.params .id)
+  // //console.log(req.params .id)
   if (!order) {
     return next(new ErrorHander("order not found with this is", 404));
   }
@@ -55,7 +55,7 @@ exports.getSingalOrder = cachasycError(async (req, res, next) => {
 // get logd in user order
 
 exports.myOrder = cachasycError(async (req, res, next) => {
-  console.log();
+  //console.log();
   const order = await Order.find({ user: req.user._id });
   res.status(200).json({
     success: true,
@@ -88,7 +88,7 @@ exports.getallOrder = cachasycError(async (req, res, next) => {
 exports.updateOrder = cachasycError(async (req, res, next) => {
   // const o = await Product.findById()
   const order = await Order.findById(req.params.id);
-  console.log(req.body.status);
+  //console.log(req.body.status);
   if (!order) {
     return next(new ErrorHander("order not found with this is", 404));
   }
@@ -101,13 +101,13 @@ exports.updateOrder = cachasycError(async (req, res, next) => {
     order.orderItems.forEach(async (o) => {
       await updateStock(o.productId, o.quantity);
     });
-    console.log("first")
+    //console.log("first")
   }
 
   if (req.body.status === "Delivered") {
     order.deliveredAt = Date.now();
-    // console.log("11")
-    // console.log(order.orderStatus )
+    // //console.log("11")
+    // //console.log(order.orderStatus )
   }
 
   await order.save({ validateBeforeSave: false });
@@ -122,7 +122,7 @@ async function updateStock(id, quantity) {
   const product = await Product.findById(id);
 
   product.stock -= quantity;
-  // console.log(product.stock);
+  // //console.log(product.stock);
   product.save({ validateBeforeSave: false });
 }
 

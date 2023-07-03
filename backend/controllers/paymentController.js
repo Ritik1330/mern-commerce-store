@@ -10,7 +10,7 @@ const razorpay = new Razorpay({
 
 //prosees payment
 exports.paymentProcess = cachasycError(async (req, res, next) => {
-  // console.log(req.body.amount)
+  // //console.log(req.body.amount)
   const options = {
     amount: req.body.amount * 100, // Amount in paise (e.g., 1000 paise = ₹10)
     currency: "INR",
@@ -20,14 +20,14 @@ exports.paymentProcess = cachasycError(async (req, res, next) => {
 
   try {
     const order = await razorpay.orders.create(options);
-    // console.log(order);
+    // //console.log(order);
     // return order;
     res.status(200).json({
       success: true,
       order: order,
     });
   } catch (error) {
-    console.error(error);
+    //console.error(error);
     res.status(402).json({
       success: false,
       erroe: error,

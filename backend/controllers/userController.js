@@ -10,7 +10,7 @@ var cloudinary = require("cloudinary").v2;
 
 // resiter user
 exports.registerUser = cachasycError(async (req, res, next) => {
-  // console.log("register called");
+  // //console.log("register called");
 
   const myCloud = await cloudinary.uploader.upload(req.body.avatar, {
     folder: "avatars",
@@ -21,7 +21,7 @@ exports.registerUser = cachasycError(async (req, res, next) => {
   });
 
   const { name, email, password } = req.body;
-  console.log(password);
+  //console.log(password);
   const user = await User.create({
     name,
     email,
@@ -71,7 +71,7 @@ exports.loginUser = cachasycError(async (req, res, next) => {
 
   sendToken(user, 200, res, req);
 
-  console.log(req.body.id);
+  //console.log(req.body.id);
 
   // const token = user.getJWTToken()
   // res.status(201).json({
@@ -85,7 +85,7 @@ exports.loginUser = cachasycError(async (req, res, next) => {
 
 // logout user
 exports.logoutUser = cachasycError(async (req, res, next) => {
-  // console.log("logoutUser called")
+  // //console.log("logoutUser called")
 
   const options = {
     expires: new Date(Date.now()),
@@ -140,7 +140,7 @@ exports.logoutUser = cachasycError(async (req, res, next) => {
 // //set new pass word
 // exports.resetepasswort = cachasycError(async (req, res, next) => {
 //   const resetToken = req.params.token;
-//   console.log(resetToken);
+//   //console.log(resetToken);
 //   const resetpasswordstoken = crypto
 //     .createHash("sha256")
 //     .update(resetToken)
@@ -167,7 +167,7 @@ exports.logoutUser = cachasycError(async (req, res, next) => {
 
 //forget password by otp
 exports.forgatepasswort = cachasycError(async (req, res, next) => {
-  // console.log('forget')
+  // //console.log('forget')
   let user = await User.findOne({ email: req.body.email });
   if (!user) {
     return next(new ErrorHander("email not found", 404));
@@ -202,8 +202,8 @@ exports.forgatepasswort = cachasycError(async (req, res, next) => {
 //set new pass word rset it
 exports.resetepasswort = cachasycError(async (req, res, next) => {
   let user = await User.findOne({ email: req.body.email });
-// console.log('rest')
-// console.log(req.body)
+// //console.log('rest')
+// //console.log(req.body)
   const otp =parseInt(req.body.otp);;
   const email = req.body.email;
 
@@ -212,8 +212,8 @@ exports.resetepasswort = cachasycError(async (req, res, next) => {
   if (userotp.expireIn < currentTime) {
     return next(new ErrorHander("otp is expore ", 404));
   }
-// console.log(otp)
-// console.log(userotp.otp)
+// //console.log(otp)
+// //console.log(userotp.otp)
   if (otp !== userotp.otp) {
     return next(new ErrorHander("invalid otp ", 404));
   }
@@ -237,7 +237,7 @@ exports.getUserDetails = cachasycError(async (req, res, next) => {
   //req.body.id add in auth
 
   let user = await User.findById(req.user.id);
-  // console.log(req.body)
+  // //console.log(req.body)
 
   res.status(200).json({
     success: true,
@@ -249,8 +249,8 @@ exports.getUserDetails = cachasycError(async (req, res, next) => {
 
 exports.updatePassword = cachasycError(async (req, res, next) => {
   //req.body.id add in auth
-  // console.log(req.body)
-  // console.log(req.oldPassword)
+  // //console.log(req.body)
+  // //console.log(req.oldPassword)
   let user = await User.findById(req.user.id).select("+password");
 
   const isPasswordMatch = await user.comarepassword(req.body.oldPassword);
@@ -274,8 +274,8 @@ exports.updatePassword = cachasycError(async (req, res, next) => {
 
 exports.updateProfile = cachasycError(async (req, res, next) => {
   //req.body.id add in auth
-  // console.log(req.body.avatar);
-  console.log(6);
+  // //console.log(req.body.avatar);
+  //console.log(6);
   const myCloud = await cloudinary.uploader.upload(req.body.avatar, {
     folder: "avatars",
     width: 150,
@@ -283,13 +283,13 @@ exports.updateProfile = cachasycError(async (req, res, next) => {
     crop: "scale",
     fetch_format: "auto",
   });
-  console.log(1);
+  //console.log(1);
   if (req.body.avatar !== "") {
     const user = await User.findById(req.user.id);
 
     const imageId = user.avatar.public_id;
     const diaapiar = await cloudinary.uploader.destroy(imageId);
-    console.log(2);
+    //console.log(2);
   }
   newUserData = {
     name: req.body.name,
@@ -299,13 +299,13 @@ exports.updateProfile = cachasycError(async (req, res, next) => {
       url: myCloud.secure_url,
     },
   };
-  console.log(3);
+  //console.log(3);
   const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
     new: true,
     useFindAndModify: false,
     runValidators: true,
   });
-  console.log(4);
+  //console.log(4);
 
   res.status(200).json({
     success: true,
