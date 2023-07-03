@@ -12,6 +12,6 @@ const router = express.Router();
 
 // router.route("/stripeapikey").get(isAuthentictedUser, publicstripeapikey);
 router.route("/payment/process").post(isAuthentictedUser, paymentProcess);
-router.route("/payment/verification").post(isAuthentictedUser, paymentverification);
+router.route("/payment/verification").get(isAuthentictedUser, paymentverification);
 
 module.exports = router;

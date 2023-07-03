@@ -11,32 +11,36 @@ import {
 } from "../../redux/actions/orderDetailsAction";
 import Loader from "../layout/Loader/Loader";
 import { myOrders } from "../../redux/actions/myOrderAction";
-
-
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 const OrderDetails = ({ match }) => {
   const { order, error, loading } = useSelector((state) => state.orderDetails);
 
   const dispatch = useDispatch();
   const params = useParams();
   // dispatch(getOrderDetails());
-  
+
   useEffect(() => {
-    if (error) {
-      alert.error(error);
-      dispatch(clearErrors());
+    if (error!==null) {
+      toast.error(error);
+      // dispatch(clearErrors());
     }
 
     dispatch(getOrderDetails(params.id));
-  }, [dispatch, , error, params.id]);
+  }, [
+    dispatch,
+    toast,
+     , error,
+    params.id,
+  ]);
 
-
-  
   return (
     <Fragment>
       {loading ? (
         <Loader />
       ) : (
         <Fragment>
+          <ToastContainer />
           <MetaData title="Order Details" />
           <div className="orderDetailsPage">
             <div className="orderDetailsContainer">
@@ -58,11 +62,7 @@ const OrderDetails = ({ match }) => {
                 <div>
                   <p>Address:</p>
 
-
-
-
-                  <p>  {order.pymentInfo &&
-                    order.paymentInfo}</p>
+                  <p> {order.pymentInfo && order.paymentInfo}</p>
                   <span>
                     {order.shippingInfo &&
                       `${order.shippingInfo.address}, ${order.shippingInfo.city}, ${order.shippingInfo.state}, ${order.shippingInfo.pinCode}, ${order.shippingInfo.country}`}
@@ -74,17 +74,14 @@ const OrderDetails = ({ match }) => {
                 <div>
                   <p
                     className={
-                      order.pymentInfo &&
-                      order.pymentInfo.status === "success"
+                      order.pymentInfo && order.pymentInfo.status === "success"
                         ? "greenColor"
                         : "redColor"
                     }
                   >
-                    {order.pymentInfo &&
-                    order.pymentInfo.status === "success"
+                    {order.pymentInfo && order.pymentInfo.status === "success"
                       ? "PAID"
                       : "NOT PAID"}
-                    
                   </p>
                 </div>
 
@@ -99,13 +96,12 @@ const OrderDetails = ({ match }) => {
                 <div>
                   <p
                     className={
-                      order.ordetStatus && order.ordetStatus === "Delivered"
+                      order.orderStatus && order.orderStatus === "Delivered"
                         ? "greenColor"
                         : "redColor"
                     }
                   >
-                    {order.ordetStatus && order.ordetStatus}
-
+                    {order.orderStatus && order.orderStatus}
                   </p>
                 </div>
               </div>

@@ -2,7 +2,10 @@ import React, { Fragment } from "react";
 import "./cart.css";
 import CartItemCard from "./CartItemCard";
 import { useSelector, useDispatch } from "react-redux";
-import { addToCartitem, removeItemsFromCart } from "../../redux/actions/cartAction";
+import {
+  addToCartitem,
+  removeItemsFromCart,
+} from "../../redux/actions/cartAction";
 import Typography from "@mui/material/Typography";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 
@@ -11,7 +14,7 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const dispatch = useDispatch();
-  const history =useNavigate()
+  const history = useNavigate();
   const { cartItems } = useSelector((state) => state.cart);
 
   const increaseQuantity = (id, quantity, stock) => {
@@ -58,7 +61,7 @@ const Cart = () => {
 
             {cartItems &&
               cartItems.map((item) => (
-                <div className="cartContainer" key={item.product}>
+                <div className="cartContainer" key={item.productId}>
                   <CartItemCard item={item} deleteCartItems={deleteCartItems} />
                   <div className="cartInput">
                     <button
@@ -74,7 +77,7 @@ const Cart = () => {
                         increaseQuantity(
                           item.productId,
                           item.quantity,
-                            
+
                           item.stock
                         )
                       }

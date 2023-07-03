@@ -117,11 +117,17 @@ function ProductDetails() {
                 <h1>{`₹${product.price}`}</h1>
                 <div className="detailsBlock-3-1">
                   <div className="detailsBlock-3-1-1">
-                    <button onClick={decreseQuantity}>-</button>
+                    <button disabled={product.stock <= 0 ? true : false} onClick={decreseQuantity}>-</button>
                     <input value={quantity} type="number" readOnly />
-                    <button onClick={increaseQuantity}>+</button>
+                    <button disabled={product.stock <= 0 ? true : false} onClick={increaseQuantity}>+</button>
                   </div>
-                  <button onClick={addToCartHendaler}> Add to cart</button>
+                  <button
+                    disabled={product.stock <= 0 ? true : false}
+                    onClick={addToCartHendaler}
+                  >
+                    {" "}
+                    Add to cart
+                  </button>
                 </div>
                 <p>
                   Status:{""}

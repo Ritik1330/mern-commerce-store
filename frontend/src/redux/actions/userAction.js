@@ -17,17 +17,34 @@ import {
 import {
   updateProfileRequest,
   updateProfileSuccess,
+  updateProfileReset,
   updateProfileFail,
   updatePasswordRequest,
   updatePasswordSuccess,
-  // updatePasswordReset,
+  updatePasswordReset,
   updatePasswordFail,
+  admindeleteUserRequest,
+  admindeleteUserSuccess,
+  admindeleteUserFail,
+  admindeleteUserResete,
+  clearEroors as clearEroorsprofile,
+  adminupdateUserRequest,
+  adminupdateUserSuccess,
+  adminupdateUserFail,
+  adminupdateUserResete,
 } from "../reducers/profileUpdateSlice";
-import { adminallUsersRequest,
+//admin access
+import {
+  adminallUsersRequest,
   adminallUsersSuccess,
   adminallUsersFail,
-  CLEAR_ERRORS } from "../reducers/allUsersSlice";
-
+  CLEAR_ERRORS,
+} from "../reducers/allUsersSlice";
+import {
+  adminuserDataRequest,
+  adminuserDataSuccess,
+  adminuserDataFail,
+} from "../reducers/userDetailsSlice";
 // register user
 export const register = (myForm) => async (dispatch) => {
   try {
@@ -40,7 +57,6 @@ export const register = (myForm) => async (dispatch) => {
     dispatch(registerFail(error.response.data.message));
   }
 };
-
 
 //login user
 export const login = (email, password) => async (dispatch) => {
@@ -107,8 +123,8 @@ export const updatePassword = (myForm) => async (dispatch) => {
   try {
     dispatch(updatePasswordRequest());
 
-    const config = { headers: {  "Content-Type": "application/json"  } };
-       const { data } = await axios.put("/api/v1/password/update", myForm, config);
+    const config = { headers: { "Content-Type": "application/json" } };
+    const { data } = await axios.put("/api/v1/password/update", myForm, config);
 
     dispatch(updatePasswordSuccess(data));
   } catch (error) {
@@ -118,6 +134,7 @@ export const updatePassword = (myForm) => async (dispatch) => {
 
 export const clearErrors = () => async (dispatch) => {
   dispatch(clearEroors());
+  dispatch(clearEroorsprofile());
 };
 
 //get all user admin
@@ -130,5 +147,41 @@ export const getAllUsers = () => async (dispatch) => {
     dispatch(adminallUsersSuccess(data));
   } catch (error) {
     dispatch(adminallUsersFail(error.response.data.message));
+  }
+};
+//deleteuser admin
+
+export const deleteUser = (id) => async (dispatch) => {
+  try {
+    dispatch(admindeleteUserRequest());
+
+    const { data } = await axios.delete(`/api/v1/admin/user/${id}`);
+    dispatch(admindeleteUserSuccess(data));
+  } catch (error) {
+    dispatch(admindeleteUserFail(error.response.data.message));
+  }
+};
+//updateUser admin
+
+export const updateUser = (id,myForm) => async (dispatch) => {
+  try {
+    dispatch(adminupdateUserRequest());
+    const config = { headers: { "Content-Type": "application/json" } };
+    const { data } = await axios.put(`/api/v1/admin/user/${id}`,myForm,config);
+    dispatch(adminupdateUserSuccess(data));
+  } catch (error) {
+    dispatch(adminupdateUserFail(error.response.data.message));
+  }
+};
+
+//user details admin
+export const getUserDetails = (id) => async (dispatch) => {
+  try {
+    dispatch(adminuserDataRequest());
+
+    const { data } = await axios.get(`/api/v1/admin/user/${id}`);
+    dispatch(adminuserDataSuccess(data));
+  } catch (error) {
+    dispatch(adminuserDataFail(error.response.data.message));
   }
 };

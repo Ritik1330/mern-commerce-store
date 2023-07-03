@@ -17,7 +17,7 @@ export const getOrderDetails = (id) => async (dispatch) => {
 
     dispatch(OrdersDetailsSuccess(data));
   } catch (error) {
-    console.log(error.message);
+    // console.log(error.message);
     dispatch(OrdersDetailsFail(error.response.data.message));
   }
 };

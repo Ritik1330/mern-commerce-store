@@ -1,31 +1,52 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  isOuder: false,
+  isDeleted: false,
+  isUpdated: false,
   loading: false,
   error: null,
-  newOrder:{}
 };
 
 const orderslice = createSlice({
-  name: "newOrder",
+  name: "order",
   initialState,
 
   reducers: {
     //create order
-    orderRequest: (state, action) => {
+    deleteorderRequest: (state, action) => {
       state.loading = true;
     },
-    orderSuccess: (state, action) => {
+    deleteorderSuccess: (state, action) => {
       state.loading = false;
       state.isOuder = true;
-      state.newOrder = action.payload.order;
-      
+      state.isDeleted = true;
+    },
+    deleteorderResete: (state, action) => {
+      state.loading = false;
+      state.isDeleted = false;
     },
 
-    orderFail(state, action) {
+    deleteorderFail(state, action) {
       state.loading = false;
       state.isOuder = true;
+      state.error = action.payload;
+    },
+    //update
+    updateorderRequest: (state, action) => {
+      state.loading = true;
+    },
+    updateorderSuccess: (state, action) => {
+      state.loading = false;
+
+      state.isUpdated = true;
+    },
+    updateorderResete: (state, action) => {
+      state.loading = false;
+      state.isUpdated = false;
+    },
+
+    updateorderFail(state, action) {
+      state.loading = false;
       state.error = action.payload;
     },
 
@@ -35,6 +56,15 @@ const orderslice = createSlice({
   },
 });
 
-export const { orderRequest, orderSuccess, orderFail, clearEroors } =
-orderslice.actions;
+export const {
+  deleteorderRequest,
+  deleteorderSuccess,
+  deleteorderFail,
+  deleteorderResete,
+  clearEroors,
+  updateorderRequest,
+  updateorderSuccess,
+  updateorderFail,
+  updateorderResete
+} = orderslice.actions;
 export default orderslice.reducer;

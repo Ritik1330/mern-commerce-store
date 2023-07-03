@@ -6,13 +6,16 @@ import userSlice from "./reducers/userSlice";
 import profileUpdateSlice from "./reducers/profileUpdateSlice";
 import passwordSlice from "./reducers/passwordSlice";
 import cartSlice from "./reducers/cartSlice";
-import orderslice from "./reducers/orderslice";
+import neworderslice from "./reducers/neworderslice";
 import myOrderslice from "./reducers/myOrdersSlice";
 import orderDetailsslice from "./reducers/orderDetailsslice";
 import reviewSlice from "./reducers/reviewSlice";
 import allUsersSlice from "./reducers/allUsersSlice";
 import allorderSlice from "./reducers/allorderSlice.js";
 import newProductSlice from "./reducers/newProductSlice.js";
+import orderslice from "./reducers/orderslice.js";
+import userDetailsSlice from "./reducers/userDetailsSlice.js";
+// import profileSlice from "./reducers/profileSlice.js";
 
 let initialState = {
   cart: {
@@ -32,17 +35,18 @@ export default configureStore({
     profile: profileUpdateSlice,
     password: passwordSlice,
     cart: cartSlice,
-    newOrder: orderslice,
+    newOrder: neworderslice,
     myOrders: myOrderslice,
     orderDetails: orderDetailsslice,
     newReview: reviewSlice,
     allUsers: allUsersSlice,
     allOrders: allorderSlice,
     newProduct: newProductSlice,
+    // profile: profileSlice,
 
-    // order: orderReducer,
+    order: orderslice,
     // allUsers: allUsersReducer,
-    // userDetails: userDetailsReducer,
+    userDetails: userDetailsSlice,
     // productReviews: productReviewsReducer,
     // review: reviewReducer,
 

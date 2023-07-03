@@ -34,7 +34,7 @@ export default function LoginSignUp() {
   const [loginPassword, setloginPassword] = useState("");
 
   let [user, setuser] = useState({
-    name: "12",
+    name: "",
     email: "",
     password: "",
   });

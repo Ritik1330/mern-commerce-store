@@ -5,7 +5,7 @@ const cachasycError = require("../middleware/cachasycError");
 
 //create new ordeo
 exports.newOrder = cachasycError(async (req, res, next) => {
-  console.log(req.body)
+  console.log(req.body);
   const {
     shippingInfo,
     orderItems,
@@ -15,7 +15,6 @@ exports.newOrder = cachasycError(async (req, res, next) => {
     shippingPrise,
     totalPrise,
   } = req.body;
-
   const order = await Order.create({
     shippingInfo,
     orderItems,
@@ -89,22 +88,26 @@ exports.getallOrder = cachasycError(async (req, res, next) => {
 exports.updateOrder = cachasycError(async (req, res, next) => {
   // const o = await Product.findById()
   const order = await Order.findById(req.params.id);
-
+  console.log(req.body.status);
   if (!order) {
     return next(new ErrorHander("order not found with this is", 404));
   }
 
-  if (!order.ordetStatus === "Delivered") {
-    return next(new ErrorHander("oorder is alredy dilevarde", 404));
+  if (order.orderStatus === "Delivered") {
+    return next(new ErrorHander("order is alredy Delivered", 404));
+  }
+  order.orderStatus = req.body.status;
+  if (req.body.status === "Shipped") {
+    order.orderItems.forEach(async (o) => {
+      await updateStock(o.productId, o.quantity);
+    });
+    console.log("first")
   }
 
-  order.orderItems.forEach(async (o) => {
-    await updateStock(o.product, o.quntitiy);
-  });
-
-  order.ordetStatus = req.body.status;
   if (req.body.status === "Delivered") {
     order.deliveredAt = Date.now();
+    // console.log("11")
+    // console.log(order.orderStatus )
   }
 
   await order.save({ validateBeforeSave: false });
@@ -115,16 +118,11 @@ exports.updateOrder = cachasycError(async (req, res, next) => {
   });
 });
 
-async function updateStock(id, quntitiy) {
+async function updateStock(id, quantity) {
   const product = await Product.findById(id);
-  // console.log(quntitiy)
-  // console.log(id)
-  // console.log(product)
 
-  // console.log( product.stock)
-
-  product.stock -= quntitiy;
-  console.log(product.stock);
+  product.stock -= quantity;
+  // console.log(product.stock);
   product.save({ validateBeforeSave: false });
 }
 

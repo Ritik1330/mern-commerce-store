@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import WebFont from "webfontloader";
-import { Routes, Route } from "react-router-dom";
-import Test from "./component/Test";
 import Header from "./component/layout/Header/Header.js";
 import Footer from "./component/layout/Footer/Footer.js";
 import Home from "./component/home/Home.js";
@@ -25,8 +23,6 @@ import Shipping from "./component/cart/Shipping";
 import ConfirmOrder from "./component/cart/ConfirmOrder";
 import Payment from "./component/cart/Payment";
 import axios from "axios";
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
 import OrderSuccess from "./component/cart/OrderSuccess";
 import MyOrder from "./component/order/MyOrder";
 import OrderDetails from "./component/order/OrderDetails";
@@ -34,26 +30,26 @@ import OrderDetails from "./component/order/OrderDetails";
 import Dashboard from "./component/Admin/Dashboard.js";
 import ProductList from "./component/Admin/ProductList.js";
 import UpdateProduct from "./component/Admin/UpdateProduct.js";
-// import OrderList from "./component/Admin/OrderList";
-// import ProcessOrder from "./component/Admin/ProcessOrder";
-// import UsersList from "./component/Admin/UsersList";
-// import UpdateUser from "./component/Admin/UpdateUser";
+import OrderList from "./component/Admin/OrderList.js";
+import ProcessOrder from "./component/Admin/ProcessOrder.js";
+import UsersList from "./component/Admin/UsersLis.js";
+import UpdateUser from "./component/Admin/UpdateUser.js";
 
 // import ProductReviews from "./component/Admin/ProductReviews";
 // import Contact from "./component/layout/Contact/Contact";
 // import About from "./component/layout/About/About";
-// import NotFound from "./component/layout/Not Found/NotFound";
+import NotFound from "./component/layout/Not Found/NotFound.js";
 import NewProduct from "./component/Admin/NewProduct.js";
 
 function App() {
   const dispatch = useDispatch();
   const { isAuthecated, loading } = useSelector((state) => state.user);
-  const [stripeapikey, setstripeapikey] = useState();
-  async function getStripeapiKet() {
-    const { data } = await axios.get("/api/v1/stripeapikey");
+  // const [stripeapikey, setstripeapikey] = useState();
+  // async function getStripeapiKet() {
+  //   const { data } = await axios.get("/api/v1/stripeapikey");
 
-    setstripeapikey(data.stripeapikey7);
-  }
+  //   setstripeapikey(data.stripeapikey7);
+  // }
 
   useEffect(() => {
     WebFont.load({
@@ -67,6 +63,7 @@ function App() {
 
   return (
     <Router>
+        {/* <Route path='*' element={<NotFound />} /> */}
       <Header></Header>
       {isAuthecated && <UserOption />}
 
@@ -75,7 +72,6 @@ function App() {
         <Route path="/products" element={<Products />} />
         <Route path="/products/:keyword" element={<Products />} />
         <Route path="/search" element={<Search />} />
-        <Route path="/test" element={<Test />} />
         <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/login" element={<LoginSignUp />} />
         <Route path="/password/forget" element={<ForgetPassword />} />
@@ -195,6 +191,41 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/admin/orders"
+          element={
+            <ProtectedRoute isAdmin={true}>
+              <OrderList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/order/:id"
+          element={
+            <ProtectedRoute isAdmin={true}>
+              <ProcessOrder />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/users"
+          element={
+            <ProtectedRoute isAdmin={true}>
+              <UsersList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/user/:id"
+          element={
+            <ProtectedRoute isAdmin={true}>
+              <UpdateUser />
+            </ProtectedRoute>
+          }
+        />
+          <Route path="*" element={<NotFound />} />
+          {/* <Route path="/404" element={<NotFound />} /> */}
+       
       </Routes>
 
       <Footer></Footer>

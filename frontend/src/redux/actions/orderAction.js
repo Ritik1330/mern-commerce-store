@@ -5,13 +5,22 @@ import {
   orderSuccess,
   orderFail,
   clearEroors,
-} from "../reducers/orderslice";
+} from "../reducers/neworderslice";
 import {
   adminAllOrdersRequest,
   adminAllOrdersSuccess,
   adminAllOrdersFail,
-  CLEAR_ERRORS
+  CLEAR_ERRORS,
 } from "../reducers/allorderSlice";
+import {
+  deleteorderRequest,
+  deleteorderSuccess,
+  deleteorderFail,
+  updateorderRequest,
+  updateorderSuccess,
+  updateorderFail,
+  // clearEroors,
+} from "../reducers/orderslice";
 
 // create order
 
@@ -46,5 +55,33 @@ export const getAllOrders = (order) => async (dispatch) => {
   } catch (error) {
     console.log(error.message);
     dispatch(adminAllOrdersFail(error.response.data.message));
+  }
+};
+//admin delete order
+
+export const deleteOrder = (id) => async (dispatch) => {
+  try {
+    dispatch(deleteorderRequest());
+
+    const { data } = await axios.delete(`/api/v1/admin/order/${id}`);
+
+    dispatch(deleteorderSuccess(data));
+  } catch (error) {
+    console.log(error.message);
+    dispatch(deleteorderFail(error.response.data.message));
+  }
+};
+//admin update order
+
+export const updateOrder = (id,myForm) => async (dispatch) => {
+  try {
+    dispatch(updateorderRequest());
+    const config = { headers: { "Content-Type": "multipart/form-data" } };
+    const { data } = await axios.put(`/api/v1/admin/order/${id}`,myForm,config);
+
+    dispatch(updateorderSuccess(data));
+  } catch (error) {
+    console.log(error.message);
+    dispatch(updateorderFail(error.response.data.message));
   }
 };

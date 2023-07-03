@@ -95,10 +95,10 @@ const orderschema = new mongoose.Schema({
     required: true,
     default: 0,
   },
-  ordetStatus: {
+  orderStatus: {
     type: String,
     required: true,
-    default: "processesing",
+    default: "Processing",
   },
   deliveredAt: {
     type: Date,
