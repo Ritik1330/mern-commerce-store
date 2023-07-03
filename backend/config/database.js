@@ -6,8 +6,8 @@ const connectDatabase=( )=>{
     })
     // handal unhandledRejection in server.js
     
-    // .catch((err)=>{
-    //     console.log(`moguse ${err}`)
-    // })
+    .catch((err)=>{
+        console.log(`moguse ${err}`)
+    })
 }
 module.exports = connectDatabase
