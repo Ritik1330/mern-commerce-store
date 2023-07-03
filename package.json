@@ -7,8 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon backend/server.js ",
     "start": "node backend/server.js",
+    "post_i": "npm run build_i --prefix frontend && npm i",
     "poststart": "npm run build --prefix frontend && node backend/server.js",
-    "postbuild": "npm run build_i --prefix frontend && npm i && npm run build --prefix frontend "
+    "postbuild": "npm run build_i --prefix frontend && npm i && npm run build --prefix frontend"
   },
   "author": "",
   "license": "ISC",
