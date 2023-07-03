@@ -11,8 +11,7 @@
 # production
 /frontend/build
 .env
-/backend/config/config.env
-backend\config\config.env
+
 /backend/config/config.env
 
 # misc

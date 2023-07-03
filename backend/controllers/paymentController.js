@@ -4,8 +4,8 @@ const cachasycError = require("../middleware/cachasycError");
 const Razorpay = require("razorpay");
 
 const razorpay = new Razorpay({
-  key_id: "rzp_test_hfSumcQYoN8tqo",
-  key_secret: "knIDIiQiLLwpVrqD0H4ARqYm",
+  key_id: process.env.YOUR_KEY_ID,
+  key_secret:process.env.YOUR_KEY_SECRET,
 });
 
 //prosees payment
@@ -20,7 +20,7 @@ exports.paymentProcess = cachasycError(async (req, res, next) => {
 
   try {
     const order = await razorpay.orders.create(options);
-    console.log(order);
+    // console.log(order);
     // return order;
     res.status(200).json({
       success: true,
