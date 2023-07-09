@@ -2,7 +2,7 @@ const ErrorHander = require("../utils/errorhander")
 
 module.exports=(err,req,res,next)=>{
     err.statuCode = err.statuCode || 500;
-    err.message =err.message || "internal server error castom from midelware"
+    err.message =err.message || "internal server error not 404"
 
 
     if (err.name==="CastError") {

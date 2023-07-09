@@ -126,7 +126,7 @@ exports.deleteproducts = cachasycError(async (req, res, next) => {
 //get all product
 
 exports.getAllproducts = cachasycError(async (req, res, next) => {
-  // return next(new ErrorHander("product not found+ asdfghjkl", 404));
+  // return next(new ErrorHander("product not found asdfghjkl", 404));
 
   const resultperpage = 10;
   const productcount = await Product.countDocuments();
@@ -152,7 +152,7 @@ exports.getAllproducts = cachasycError(async (req, res, next) => {
 //get all product by admin
 
 exports.getAdminproducts = cachasycError(async (req, res, next) => {
-  // return next(new ErrorHander("product not found+ asdfghjkl", 404));
+  // return next(new ErrorHander("product not found asdfghjkl", 404));
 
   const products = await Product.find();
 
@@ -168,7 +168,7 @@ exports.getproductDetails = cachasycError(async (req, res, next) => {
   let product = await Product.findById(req.params.id);
 
   if (!product) {
-    return next(new ErrorHander("product not found+", 404));
+    return next(new ErrorHander("product not found", 404));
     // res.status(500).json({
     //     success: false,
     //     Message: "product not found"
@@ -232,7 +232,7 @@ exports.getproductReview = cachasycError(async (req, res, next) => {
   let product = await Product.findById(req.query.id);
 
   if (!product) {
-    return next(new ErrorHander("product not found+", 404));
+    return next(new ErrorHander("product not found", 404));
   } else {
     res.status(200).json({
       success: true,
@@ -247,7 +247,7 @@ exports.deleteproductsReview = cachasycError(async (req, res, next) => {
   let product = await Product.findById(req.query.productId);
 
   if (!product) {
-    return next(new ErrorHander("product not found+", 404));
+    return next(new ErrorHander("product not found", 404));
   }
 
   let reviews = await product.reviews.filter(
@@ -272,5 +272,16 @@ exports.deleteproductsReview = cachasycError(async (req, res, next) => {
   res.status(200).json({
     success: true,
     reviews: reviews,
+  });
+});
+//error test for front end
+exports.getError = cachasycError(async (req, res, next) => {
+  return next(new ErrorHander("product not found", 404));
+
+  const products = await Product.find();
+
+  res.status(200).json({
+    success: true,
+    products,
   });
 });

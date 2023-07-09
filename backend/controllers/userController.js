@@ -7,11 +7,21 @@ const getJWTToken = require("../models/usersModal");
 const sendEmail = require("../utils/sendEmail.js");
 const crypto = require("crypto");
 var cloudinary = require("cloudinary").v2;
+var fetch = require("node-fetch");
 
 // resiter user
 exports.registerUser = cachasycError(async (req, res, next) => {
   // //console.log("register called");
-
+  if (req.body.avatar === undefined) {
+    let fimg = await fetch(
+      "https://cdn-icons-png.flaticon.com/128/8188/8188362.png"
+    );
+    let fimgb = Buffer.from(await fimg.arrayBuffer());
+    const b64 = fimgb.toString("base64");
+    const withPrefix = "data:image/png;base64," + b64;
+    console.log(withPrefix);
+    req.body.avatar = withPrefix;
+  }
   const myCloud = await cloudinary.uploader.upload(req.body.avatar, {
     folder: "avatars",
     width: 150,
@@ -202,20 +212,20 @@ exports.forgatepasswort = cachasycError(async (req, res, next) => {
 //set new pass word rset it
 exports.resetepasswort = cachasycError(async (req, res, next) => {
   let user = await User.findOne({ email: req.body.email });
-// //console.log('rest')
-// //console.log(req.body)
-  const otp =parseInt(req.body.otp);;
+  // //console.log('rest')
+  // //console.log(req.body)
+  const otp = parseInt(req.body.otp);
   const email = req.body.email;
 
   let currentTime = new Date().getTime();
   let userotp = await Otp.findOne({ email: req.body.email });
   if (userotp.expireIn < currentTime) {
-    return next(new ErrorHander("otp is expore ", 404));
+    return next(new ErrorHander("Otp is expired ", 404));
   }
-// //console.log(otp)
-// //console.log(userotp.otp)
+  // //console.log(otp)
+  // //console.log(userotp.otp)
   if (otp !== userotp.otp) {
-    return next(new ErrorHander("invalid otp ", 404));
+    return next(new ErrorHander("Invalid Otp ", 404));
   }
   if (req.body.password !== req.body.confirampassword) {
     return next(
