@@ -12,7 +12,9 @@ var fetch = require("node-fetch");
 // resiter user
 exports.registerUser = cachasycError(async (req, res, next) => {
   // //console.log("register called");
-  if (req.body.avatar === undefined) {
+  console.log(req.body)
+  if (req.body.avatar==="undefined") {
+   
     let fimg = await fetch(
       "https://cdn-icons-png.flaticon.com/128/8188/8188362.png"
     );
